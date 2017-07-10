@@ -38,7 +38,9 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/Notifications/notifications.all.min.js"></script>
+    <script src="~/Scripts/Notifications/notifications.all.js"></script>
     @RenderSection("scripts", required: false)
+    
+    @Html.Raw(ViewBag.Script)
 </body>
 </html>

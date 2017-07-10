@@ -71,13 +71,15 @@ function ShowGritter(title, msg, imageUrl, callbacks) {
  * @param {object} buttons buttons { okText: "OK", cancelText: "Cancel" }
  * @param {object} callbacks a callbacks object, {confirm : function(), cancel : function()}
  * @param {string} imageUrl Optional url for showing image in icon
+ * @param {boolean} showLoaderOnConfirm Optional, shows a loading animations on Confirm button if set to true
  */
-function ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl) {
+function ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl, showLoaderOnConfirm) {
     var okButtonColor = "btn-success";
 
     if (type === "error") { okButtonColor = "btn-danger"; }
     else if (type === "warning") {okButtonColor = "btn-warning";}
     else if (type === "info") { okButtonColor = "btn-info"; }
+    else if (type === "success") { okButtonColor = "btn-success"; }
     else {okButtonColor = "btn-primary"}
 
     if (buttons === undefined)
@@ -89,6 +91,7 @@ function ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl) {
             text: msg,
             type: type,
             confirmButtonText: buttons.okText !== undefined ? buttons.okText : "OK",
+            confirmButtonClass: okButtonColor,
             imageUrl: imageUrl,
             allowOutsideClick : true
         });
@@ -102,14 +105,15 @@ function ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl) {
             confirmButtonClass: okButtonColor,
             confirmButtonText: buttons.okText !== undefined ? buttons.okText : "Yes",
             cancelButtonText: buttons.cancelText !== undefined ? buttons.cancelText : "No",
-            closeOnConfirm: false,
-            closeOnCancel: false
+            closeOnConfirm: !showLoaderOnConfirm,
+            showLoaderOnConfirm: showLoaderOnConfirm
         },
             function (isConfirm) {
                 if (isConfirm) {
                     callbacks.confirm();
                 } else {
-                    callbacks.cancel();
+                    if(callbacks.cancel !== undefined)
+                        callbacks.cancel();
                 }
             });
     }
