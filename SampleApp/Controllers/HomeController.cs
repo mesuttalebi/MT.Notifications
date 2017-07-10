@@ -7,14 +7,16 @@ namespace SampleApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Script = Notifications.ShowPopup("Hello World!", MessageType.Success, callbacks: new SweetCallBack("alert('Hello World');"), showLoaderOnConfirm: true);
+            ViewBag.Script = Notifications.ShowConfirm("Hello World!",
+                new SweetCallBack("alert('Hello World');"));
+            
             return View();
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            ViewBag.Script = Notifications.ShowToast("HahaHahaha!", MessageType.Warning, position: ToastrPosition.TopCenter);
+            ViewBag.Script = Notifications.ShowToast("HahaHahaha!", string.Empty, MessageType.Warning, position: ToastrPosition.TopCenter);
             return View();
         }
 

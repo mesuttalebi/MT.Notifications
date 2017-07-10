@@ -71,6 +71,7 @@ namespace MT.Notifications
         public static string OkText { get; set; } = "OK";
         public static string CancelText { get; set; } = "Cancel";
 
+#region Popup
         /// <summary>
         /// This function return the script string of a popup box
         /// To use this function, the return value of this must be placed in TempData["Script"] 
@@ -78,16 +79,16 @@ namespace MT.Notifications
         /// </summary>
         /// <param name="msg">message to show</param>
         /// <param name="type">Type of popup, message will not show any icon</param>
-        /// <param name="callbacks">optional: Used when you need a confirm dialog box, you sould write a java script function name or call for every callback you want</param>
-        /// <param name="addOnDocumentReady">set true to add jquery Document ready to script</param>
-        /// <param name="title">optional, title for Popup box</param>
-        /// <param name="okText">optional, you can set it Globally via OkText Property of Notifications Class (default: OK)</param>
-        /// <param name="cancelText">optional, you can set it Globally via OkText Property of Notifications Class (default: Cancel)</param>
-        /// <param name="imageUrl">optional, Adds a custom image in place of icon</param>
+        /// <param name="title">title for Popup box</param>
+        /// <param name="okText">you can set it Globally via OkText Property of Notifications Class (default: OK)</param>
+        /// <param name="cancelText">you can set it Globally via OkText Property of Notifications Class (default: Cancel)</param>
+        /// <param name="imageUrl">Adds a custom image in place of icon</param>
+        /// <param name="callbacks">Used when you need a confirm dialog box, you sould write a java script function name or call for every callback you want</param>
         /// <param name="showLoaderOnConfirm">optional, shows Loader if user clicked confirm button, used when you run an ajax request in confirm callback.</param>
+        /// <param name="addOnDocumentReady">optional,set true to add jquery Document ready to script</param>
         /// <returns>script string</returns>
-        public static string ShowPopup(string msg, MessageType type, SweetCallBack callbacks = null, bool addOnDocumentReady = false, 
-              string title = "", string okText = "", string cancelText="", string imageUrl = "", bool showLoaderOnConfirm = false)
+        public static string ShowPopup(string msg, MessageType type, string title, string okText, string cancelText, string imageUrl,
+            SweetCallBack callbacks, bool showLoaderOnConfirm = false, bool addOnDocumentReady = false)
         {
             //ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl, showLoaderOnConfirm)           
 
@@ -138,7 +139,73 @@ namespace MT.Notifications
             return str.ToString();
         }
 
+        /// <summary>
+        /// This function return the script string of a popup box, 
+        /// uses default texts for Ok and Cancel buttons
+        /// </summary>
+        /// <param name="msg">message to show</param>
+        /// <param name="type">Type of popup, message will not show any icon</param>
+        /// <returns></returns>
+        public static string ShowPopup(string msg, MessageType type)
+        {
+            return ShowPopup(msg, type, string.Empty, string.Empty, string.Empty, string.Empty, null);
+        }
+
+        /// <summary>
+        /// This function return the script string of a popup box, 
+        /// uses default texts for Ok and Cancel buttons
+        /// </summary>
+        /// <param name="title">title for Popup box</param>
+        /// <param name="msg">message to show</param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string ShowPopup(string msg, MessageType type, string title)
+        {
+            return ShowPopup(msg, type, title, string.Empty, string.Empty, string.Empty, null);
+        }
+
+        /// <summary>
+        /// This function return the script string of a popup box,        
+        /// </summary>
+        /// <param name="title">title for Popup box</param>
+        /// <param name="msg">message to show</param>
+        /// <param name="type">Type of popup, message will not show any icon</param>
+        /// <param name="okText">you can set it Globally via OkText Property of Notifications Class (default: OK)</param>
+        /// <param name="cancelText">you can set it Globally via OkText Property of Notifications Class (default: Cancel)</param>
+        /// <returns></returns>
+        public static string ShowPopup(string msg, MessageType type, string title, string okText, string cancelText)
+        {
+            return ShowPopup(msg, type, title, okText, cancelText, string.Empty, null);
+        }
         
+
+        public static string ShowConfirm(string msg, SweetCallBack callbacks, string title = "", string okText = "", string cancelText = "", MessageType type = MessageType.Warning, bool showLoaderOnConfirm = false)
+        {
+            return ShowPopup(msg, type, title, okText, cancelText, string.Empty, callbacks);
+        }
+
+        /// <summary>
+        /// This function return the script string of a error popup box,
+        /// </summary>
+        /// <param name="title">title for Popup box</param>
+        /// <param name="msg">message to show</param>
+        /// <returns></returns>
+        public static string ShowErrorPopup(string title, string msg)
+        {
+            return ShowPopup(msg, MessageType.Error, title);
+        }
+
+        /// <summary>
+        /// This function return the script string of a error popup box,
+        /// </summary>
+        /// <param name="msg">message to show</param>
+        /// <returns></returns>
+        public static string ShowErrorPopup(string msg)
+        {
+            return ShowPopup(msg, MessageType.Error);
+        }
+        #endregion
+
         /// <summary>
         /// This function generates an script string to show a message growl
         /// </summary>
@@ -148,7 +215,7 @@ namespace MT.Notifications
         /// <param name="position">The position for Toastr</param>
         /// <param name="addOnDocumentReady">set true to add jquery Document ready to script</param>
         /// <returns>string contains script needed to show a message growl</returns>
-        public static string ShowToast(string msg, MessageType type, string title = "", ToastrPosition position = ToastrPosition.BottomRight, bool addOnDocumentReady = false)
+        public static string ShowToast(string title, string msg, MessageType type, ToastrPosition position = ToastrPosition.BottomRight, bool addOnDocumentReady = false)
         {
             // ShowToast(title, msg, position, type)
 
@@ -167,8 +234,29 @@ namespace MT.Notifications
             str.Append("</script>");
 
             return str.ToString();
-        }  
-        
+        }
+
+        /// <summary>
+        /// Shows a toastr message in default position
+        /// </summary>
+        /// <param name="msg">Message of Toast</param>
+        /// <param name="type">Type of Toast Message</param>
+        /// <returns></returns>
+        public static string ShowToast(string msg, MessageType type)
+        {
+            return ShowToast(string.Empty, msg, type);
+        }
+
+        /// <summary>
+        /// Shows a toastr error message in default position
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public static string ShowErrorToast(string title, string msg)
+        {
+            return ShowToast(title, msg, MessageType.Error);
+        }
 
         public static string ShowGritter(string msg, string title = "", string imageUrl = "", GritterCallback callbacks = null, bool addOnDocumentReady = false)
         {
