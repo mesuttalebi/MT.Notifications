@@ -5,9 +5,10 @@
     "mesut talebi <mesut.talebi@yahoo.com>"
   ],
   "description": "An extension for generating javascript functions for showing notifications based on (sweet alert, gritter and Toastr)",
-  "main": ["src/notifications/notifications.all.js",
-   "src/notifications/css/notifications.css
-  ]
+  "main": [
+   "src/notifications/notifications.all.js",
+   "src/notifications/css/notifications.css"
+  ],
   "keywords": [
     "mvc",
     "notifications",
