@@ -1,0 +1,30 @@
+{
+  "name": "mt.notifications",
+  "homepage": "https://github.com/mesuttalebi/MT.Notifications",
+  "authors": [
+    "mesut talebi <mesut.talebi@yahoo.com>"
+  ],
+  "description": "An extension for generating javascript functions for showing notifications based on (sweet alert, gritter and Toastr)",
+  "main": ["src/notifications/notifications.all.js",
+   "src/notifications/css/notifications.css
+  ]
+  "keywords": [
+    "mvc",
+    "notifications",
+    "c#",
+    "notification",
+    "sweet",
+    "alert",
+    "toastr",
+    "MT",
+    "jquery.gritter"
+  ],
+  "license": "free to use",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
