@@ -19,7 +19,7 @@ namespace MT.Notifications
         [Description("toast-top-right")]
         TopRight,
 
-        [Description("toast-bottom-righ")]
+        [Description("toast-bottom-right")]
         BottomRight,
 
         [Description("toast-bottom-left")]
