@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>MT.Notifications-test5</id>
+        <version>1.0.1</version>
+        <title>MT.Notifications</title>
+        <authors>Mesut Talebi</authors>
+        <owners>Mesut Talebi</owners>
+        <projectUrl>https://github.com/mesuttalebi/MT.Notifications</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>this package is an upper level implementation for creating sweet alerts, gritter messages and toastr messages. it includes all this packages as a bundled in js file. a c# static class and methods available to create notifications scripts in backend code, and send them inside the  response to client.
+NOT: If you want to download this package in .net core app, please manually add js and css files, notifications.min.css, notifications.all.min.js into your wwwroot folder and be patient until I found a workaround for this :)</description>
+        <summary>An extension for generating javascript functions for showing notifications based on (sweet alert, gritter and Toastr) in asp.net webforms and asp.net mvc applications simply with calling a function.</summary>
+        <releaseNotes>Solved error - with toastr on bottom right</releaseNotes>
+        <copyright>Mesut Talebi</copyright>
+        <tags>mvc notifications, c# notification, sweet alert, toastr, MT, jquery.gritter</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5.1" />            
+        </frameworkAssemblies>
+		<contentFiles>
+			<files include="any/any/wwwroot/lib/MT.Notifications/**" buildAction="Content" />            
+	    </contentFiles>        
+    </metadata> 
+    <files>
+        <file src="contentFiles\any\any\wwwroot\lib\MT.Notifications\Css\*.css" target="Content/Scripts/MT.Notifications/Css" /> 
+        <file src="contentFiles\any\any\wwwroot\lib\MT.Notifications\*.js" target="Content/Scripts/MT.Notifications" /> 
+        <file src="lib\**" target="lib" />    
+    </files>
+</package>

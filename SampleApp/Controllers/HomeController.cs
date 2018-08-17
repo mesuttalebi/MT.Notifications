@@ -1,4 +1,5 @@
-﻿using MT.Notifications;
+﻿using System;
+using MT.Notifications;
 using System.Web.Mvc;
 
 namespace SampleApp.Controllers
@@ -7,7 +8,7 @@ namespace SampleApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Script = Notifications.ShowConfirm("Hello World!",
+            ViewBag.Script = Notifications.ShowPopup("Hello World!", MessageType.Success, "Alert", "TAMAM", 
                 new SweetCallBack("alert('Hello World');"));
             
             return View();

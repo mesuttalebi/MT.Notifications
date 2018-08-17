@@ -177,7 +177,75 @@ namespace MT.Notifications
         {
             return ShowPopup(msg, type, title, okText, cancelText, string.Empty, null);
         }
-        
+
+        /// <summary>
+        /// This function return the script string of a popup box with just Ok Button
+        /// To use this function, the return value of this must be placed in TempData["Script"]
+        /// in order to insert into ViewData.Script and send it to the view to show.
+        /// </summary>
+        /// <param name="msg">message to show</param>
+        /// <param name="type">Type of popup, message will not show any icon</param>
+        /// <param name="title">title for Popup box</param>
+        /// <param name="okText">you can set it Globally via OkText Property of Notifications Class (default: OK)</param>                
+        /// <param name="callbacks">Used when you need a confirm dialog box, you sould write a java script function name or call for every callback you want</param>
+        /// <param name="closeOnConfirm">optional, close when Confirm button clicked or not.</param>
+        /// <param name="addOnDocumentReady">optional,set true to add jquery Document ready to script</param>
+        /// <returns>script string</returns>
+        public static string ShowPopup(string msg, MessageType type, string title, string okText,
+            SweetCallBack callbacks,bool closeOnConfirm = true, bool addOnDocumentReady = false)
+        {
+            //swal({
+            //     title: "Red!",
+            //     text: "İstek Başarıyla Rededildi!",
+            //     type: "success",
+            //     showCancelButton: false,
+            //     confirmButtonClass: "btn-info",
+            //     confirmButtonText: "TAMAM",
+            //     closeOnConfirm: false,
+            //     allowEscapeKey: false,
+            //    }, function() {               
+            //          callback();
+            //    });"
+
+            var str = new StringBuilder("<script>");
+
+            if (addOnDocumentReady)
+                str.Append("$(function() {");
+
+            var typeStr = "null";
+            // add Type parameter
+            if (type != MessageType.Message)
+                typeStr = type.ToString().ToLower();
+
+            var buttonColor = "btn-success";
+            if (type == MessageType.Error) { buttonColor = "btn-danger"; }
+            else if (type == MessageType.Warning) { buttonColor = "btn-warning"; }
+            else if (type == MessageType.Info) { buttonColor = "btn-info"; }
+            else if (type == MessageType.Success) { buttonColor = "btn-success"; }
+            else { buttonColor = "btn-primary"; }
+
+
+
+            str.Append(
+$@"swal({{
+    title : '{title}',
+    text : '{msg}',
+    type : '{typeStr}',
+    showCancelButton : false,
+    confirmButtonClass : '{buttonColor}',
+    confirmButtonText : '{(string.IsNullOrEmpty(okText) ? OkText : okText)}',
+    closeOnConfirm : {(closeOnConfirm ? "true" : "false")},
+    allowEscapeKey : false}}
+    {(callbacks == null ? "" : $@", function() {{ {callbacks.Confirm} }}")}
+);");
+
+            if (addOnDocumentReady)
+                str.Append("});");
+
+            str.Append("</script>");
+
+            return str.ToString();
+        }
 
         public static string ShowConfirm(string msg, SweetCallBack callbacks, string title = "", string okText = "", string cancelText = "", MessageType type = MessageType.Warning, bool showLoaderOnConfirm = false)
         {

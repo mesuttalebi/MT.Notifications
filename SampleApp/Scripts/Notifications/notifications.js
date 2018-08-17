@@ -101,7 +101,7 @@ function ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl, showLoad
             title: title,
             text: msg,
             type: type,
-            showCancelButton: buttons.okText !== undefined,
+            showCancelButton: buttons.cancelText !== undefined,
             confirmButtonClass: okButtonColor,
             confirmButtonText: buttons.okText !== undefined ? buttons.okText : "Yes",
             cancelButtonText: buttons.cancelText !== undefined ? buttons.cancelText : "No",
