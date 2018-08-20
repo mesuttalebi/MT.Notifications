@@ -66,7 +66,7 @@ namespace MT.Notifications
         public string Cancel { get; set; }        
     }
    
-    public static class Notifications
+    public class Notifications
     {
         public static string OkText { get; set; } = "OK";
         public static string CancelText { get; set; } = "Cancel";
