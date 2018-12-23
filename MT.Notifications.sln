@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT.Notifications", "MT.Notifications\MT.Notifications.csproj", "{D7274594-4FE0-44EF-BF4B-0AA4219A3F7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MT.Notifications", "MT.Notifications\MT.Notifications.csproj", "{D7274594-4FE0-44EF-BF4B-0AA4219A3F7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{15DDA502-1FB4-402F-9BCF-BA969831E9CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DB49AEC-51E8-4B44-9A5D-0B59FF3C237C}"
+	ProjectSection(SolutionItems) = preProject
+		licence.txt = licence.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA20EB28-29AA-406F-AD68-37B54929D4B1}
 	EndGlobalSection
 EndGlobal
