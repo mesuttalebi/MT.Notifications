@@ -7,10 +7,15 @@ namespace MT.Notifications
 {
     public enum MessageType
     {   
+        [Description("info")]
         Info,
+        [Description("error")]
         Error,
+        [Description("warning")]
         Warning,
+        [Description("success")]
         Success,
+        [Description("message")]
         Message
     }    
 
@@ -101,7 +106,7 @@ namespace MT.Notifications
 
             // add Type parameter
             if (type != MessageType.Message)
-                str.Append($",'{type.ToString().ToLower()}'");
+                str.Append($",'{type.GetDescription()}'");
             else
                 str.Append($", null");
 
@@ -215,7 +220,7 @@ namespace MT.Notifications
             var typeStr = "null";
             // add Type parameter
             if (type != MessageType.Message)
-                typeStr = type.ToString().ToLower();
+                typeStr = type.GetDescription();
 
             var buttonColor = "btn-success";
             if (type == MessageType.Error) { buttonColor = "btn-danger"; }
@@ -287,7 +292,7 @@ $@"swal({{
         {
             // ShowToast(title, msg, position, type)
 
-            var messageType = type.ToString().ToLower();
+            var messageType = type.GetDescription();
            
             var str = new StringBuilder("<script>");
             
@@ -375,7 +380,7 @@ $@"swal({{
             if (string.IsNullOrEmpty(callbackFunction))
                 return callbackFunction;
 
-            return callbackFunction.StartsWith("function() {") ? callbackFunction : $"function() {{ {callbackFunction }}}";
+            return callbackFunction.StartsWith("function()") ? callbackFunction : $"function() {{ {callbackFunction }}}";
         }
     }
 }
