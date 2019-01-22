@@ -8,7 +8,7 @@ namespace SampleApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Script = Notifications.ShowPopup("Hello World! ömer'in", MessageType.Success, "Alert", "TAMAM", 
+            ViewBag.Script = Notifications.ShowPopup("Hello World!", MessageType.Success, "Alert", "TAMAM", 
                 new SweetCallBack("alert('Hello World');"));
             
             return View();

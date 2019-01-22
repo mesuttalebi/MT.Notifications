@@ -102,6 +102,9 @@ namespace MT.Notifications
             if (addOnDocumentReady)
                 str.Append("$(function() {");
 
+            title = System.Net.WebUtility.HtmlEncode(title);
+            msg = System.Net.WebUtility.HtmlEncode(msg);
+
             str.Append($"ShowSweetPopup('{title}','{msg}'");
 
             // add Type parameter
@@ -114,8 +117,7 @@ namespace MT.Notifications
             var oktext = string.IsNullOrEmpty(okText) ? OkText : okText;
             var canceltext = string.IsNullOrEmpty(cancelText) ? CancelText : cancelText;
 
-            str.Append($", {{okText : '{oktext}', cancelText: '{canceltext}'}}");
-            str.Append(",html: true");
+            str.Append($", {{okText : '{oktext}', cancelText: '{canceltext}'}}");            
 
             // Add Callbacks
             if (callbacks != null)
@@ -230,7 +232,8 @@ namespace MT.Notifications
             else if (type == MessageType.Success) { buttonColor = "btn-success"; }
             else { buttonColor = "btn-primary"; }
 
-
+            title = System.Net.WebUtility.HtmlEncode(title);
+            msg = System.Net.WebUtility.HtmlEncode(msg);
 
             str.Append(
 $@"swal({{
