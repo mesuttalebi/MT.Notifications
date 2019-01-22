@@ -1,19 +1,24 @@
 [
-  {
-    "outputFileName": "Scripts/Notifications/Css/notifications.css",
-    "inputFiles": [
-      "Scripts/Notifications/Css/toastr.css",
-      "Scripts/Notifications/Css/sweetalert.css",
-      "Scripts/Notifications/Css/jquery.gritter.css"
-    ]
-  },
-  {
-    "outputFileName": "Scripts/Notifications/notifications.all.js",
-    "inputFiles": [
-      "Scripts/Notifications/sweetalert.min.js",
-      "Scripts/Notifications/toastr.min.js",
-      "Scripts/Notifications/jquery.gritter.min.js",
-      "Scripts/Notifications/notifications.js"
-    ]
-  }
+    {
+        "outputFileName": "Scripts/Notifications/Css/notifications.css",
+        "inputFiles": [
+            "Scripts/Notifications/Css/toastr.css",
+            "Scripts/Notifications/Css/sweetalert.css",
+            "Scripts/Notifications/Css/jquery.gritter.css"
+        ]
+    },
+    {
+        "outputFileName": "Scripts/Notifications/notifications.all.js",
+        "inputFiles": [
+            "Scripts/Notifications/sweetalert.min.js",
+            "Scripts/Notifications/toastr.min.js",
+            "Scripts/Notifications/jquery.gritter.min.js",
+            "Scripts/Notifications/notifications.js"
+        ]
+    },
+    {
+        "outputFileName": "Scripts/Notifications/notifications.all.min.js",
+        "inputFiles": [ "Scripts/Notifications/notifications.all.js" ],
+        "minify": {"enabled": true}
+    }
 ]
