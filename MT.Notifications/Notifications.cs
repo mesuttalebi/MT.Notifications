@@ -6,7 +6,7 @@ using System.Text;
 namespace MT.Notifications
 {
     public enum MessageType
-    {   
+    {
         [Description("info")]
         Info,
         [Description("error")]
@@ -17,7 +17,7 @@ namespace MT.Notifications
         Success,
         [Description("message")]
         Message
-    }    
+    }
 
     public enum ToastrPosition
     {
@@ -53,12 +53,12 @@ namespace MT.Notifications
         public string AfterOpen { get; set; }
         public string AfterClose { get; set; }
     }
-    
+
     public class SweetCallBack
     {
         public SweetCallBack(string confirmCallbackFunction)
         {
-            Debug.Assert(!string.IsNullOrEmpty(confirmCallbackFunction),"Confirm Callback cannot be null or empty string");
+            Debug.Assert(!string.IsNullOrEmpty(confirmCallbackFunction), "Confirm Callback cannot be null or empty string");
 
             if (string.IsNullOrEmpty(confirmCallbackFunction))
                 throw new ArgumentNullException(nameof(confirmCallbackFunction), "Confirm Callback cannot be null or empty string");
@@ -66,17 +66,17 @@ namespace MT.Notifications
             Confirm = confirmCallbackFunction;
         }
 
-        
-        public string Confirm { get; }        
-        public string Cancel { get; set; }        
+
+        public string Confirm { get; }
+        public string Cancel { get; set; }
     }
-   
+
     public class Notifications
     {
         public static string OkText { get; set; } = "OK";
         public static string CancelText { get; set; } = "Cancel";
 
-#region Popup
+        #region Popup
         /// <summary>
         /// This function return the script string of a popup box
         /// To use this function, the return value of this must be placed in TempData["Script"] 
@@ -115,13 +115,14 @@ namespace MT.Notifications
             var canceltext = string.IsNullOrEmpty(cancelText) ? CancelText : cancelText;
 
             str.Append($", {{okText : '{oktext}', cancelText: '{canceltext}'}}");
+            str.Append(",html: true");
 
             // Add Callbacks
             if (callbacks != null)
-            {                
+            {
                 str.Append($", {{confirm: {AddFunctionPhrase(callbacks.Confirm)}");
-                
-                if(callbacks.Cancel != null)
+
+                if (callbacks.Cancel != null)
                     str.Append($", cancel: {AddFunctionPhrase(callbacks.Cancel)}");
 
                 str.Append($"}}");
@@ -197,7 +198,7 @@ namespace MT.Notifications
         /// <param name="addOnDocumentReady">optional,set true to add jquery Document ready to script</param>
         /// <returns>script string</returns>
         public static string ShowPopup(string msg, MessageType type, string title, string okText,
-            SweetCallBack callbacks,bool closeOnConfirm = true, bool addOnDocumentReady = false)
+            SweetCallBack callbacks, bool closeOnConfirm = true, bool addOnDocumentReady = false)
         {
             //swal({
             //     title: "Red!",
@@ -240,6 +241,7 @@ $@"swal({{
     confirmButtonClass : '{buttonColor}',
     confirmButtonText : '{(string.IsNullOrEmpty(okText) ? OkText : okText)}',
     closeOnConfirm : {(closeOnConfirm ? "true" : "false")},
+    html: true,
     allowEscapeKey : false}}
     {(callbacks == null ? "" : $@", function() {{ {callbacks.Confirm} }}")}
 );");
@@ -293,9 +295,9 @@ $@"swal({{
             // ShowToast(title, msg, position, type)
 
             var messageType = type.GetDescription();
-           
+
             var str = new StringBuilder("<script>");
-            
+
             if (addOnDocumentReady)
                 str.Append("$(function() {");
 
@@ -334,7 +336,7 @@ $@"swal({{
         public static string ShowGritter(string msg, string title = "", string imageUrl = "", GritterCallback callbacks = null, bool addOnDocumentReady = false)
         {
             // ShowGritter(title, msg, imageUrl, callbacks)
-            
+
             var str = new StringBuilder("<script>");
 
             if (addOnDocumentReady)
@@ -342,11 +344,11 @@ $@"swal({{
 
             str.Append($"ShowGritter('{title}', '{msg}', '{imageUrl}'");
 
-            if(callbacks != null)
+            if (callbacks != null)
             {
                 str.Append($", {{");
 
-                if(!string.IsNullOrEmpty(callbacks.BeforeOpen))
+                if (!string.IsNullOrEmpty(callbacks.BeforeOpen))
                     str.Append($"beforeOpen: {AddFunctionPhrase(callbacks.BeforeOpen)}, ");
                 if (!string.IsNullOrEmpty(callbacks.AfterOpen))
                     str.Append($"afterOpen:  {AddFunctionPhrase(callbacks.AfterOpen)}, ");
