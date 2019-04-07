@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.1.1</Version>
+    <Version>1.2.0</Version>
     <Authors>Mesut Talebi</Authors>
     <PackageProjectUrl>https://github.com/mesuttalebi/MT.Notifications</PackageProjectUrl>
     <Description>this package is an upper level implementation for creating sweet alerts, gritter messages and toastr messages. it includes all this packages as a bundled in js file. a c# static class and methods available to create notifications scripts in backend code, and send them inside the  response to client.
 NOT: If you want to download this package in .net core app, please manually add js and css files, notifications.min.css, notifications.all.min.js into your wwwroot folder and be patient until I found a workaround for this :)</Description>
-    <PackageReleaseNotes>added target for .net standard 2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated Sweetalert to Sweetalert2</PackageReleaseNotes>
   </PropertyGroup>
 </Project>
