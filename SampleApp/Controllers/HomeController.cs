@@ -8,11 +8,25 @@ namespace SampleApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Script = Notifications.ShowPopup("Hello World!", MessageType.Success, "Alert", "TAMAM", 
-                new SweetCallBack("alert('Hello World');"));
+            ViewBag.Script = Notifications.ShowPopup("Hello World!", MessageType.Success, "Alert", "OK",
+                new SweetCallBack("alert('Hello World');") );
             
             return View();
         }
+
+        public ActionResult ShowConfirm()
+        {
+            ViewBag.Script = Notifications.ShowConfirm("This is Confirm Message are you sure?"
+                , new SweetCallBack(Notifications.ShowPopup("Confirmed!", MessageType.Success, false), Notifications.ShowErrorToast("Canceled!", "Toastr.js", false) )
+                , "Title"
+                , "OkText"
+                , "CancelText"
+                , MessageType.Question
+                , true);
+
+            return View("Index");
+        }
+
 
         public ActionResult About()
         {

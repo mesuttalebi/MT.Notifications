@@ -19,7 +19,7 @@ namespace MT.Notifications
         Message,
         [Description("question")]
         Question
-    }    
+    }
 
     public enum ToastrPosition
     {
@@ -68,6 +68,17 @@ namespace MT.Notifications
             Confirm = confirmCallbackFunction;
         }
 
+        public SweetCallBack(string confirmCallbackFunction, string cancelCallbachFunction)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(confirmCallbackFunction), "Confirm Callback cannot be null or empty string");
+
+            if (string.IsNullOrEmpty(confirmCallbackFunction))
+                throw new ArgumentNullException(nameof(confirmCallbackFunction), "Confirm Callback cannot be null or empty string");
+
+            Confirm = confirmCallbackFunction;
+            Cancel = cancelCallbachFunction;
+        }
+
 
         public string Confirm { get; }
         public string Cancel { get; set; }
@@ -95,11 +106,13 @@ namespace MT.Notifications
         /// <param name="addOnDocumentReady">optional,set true to add jquery Document ready to script</param>
         /// <returns>script string</returns>
         public static string ShowPopup(string msg, MessageType type, string title, string okText, string cancelText, string imageUrl,
-            SweetCallBack callbacks, bool showLoaderOnConfirm = false, bool addOnDocumentReady = false)
+            SweetCallBack callbacks, bool showLoaderOnConfirm = false, bool addOnDocumentReady = false, bool addScript = true)
         {
             //ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl, showLoaderOnConfirm)           
-
-            var str = new StringBuilder("<script>");
+            var str = new StringBuilder();
+            
+            if(addScript)
+                str.Append("<script>");
 
             if (addOnDocumentReady)
                 str.Append("$(function() {");
@@ -113,13 +126,13 @@ namespace MT.Notifications
             if (type != MessageType.Message)
                 str.Append($",'{type.GetDescription()}'");
             else
-                str.Append($", null");
+                str.Append($", 'info'");
 
             // Add buttons parameter
             var oktext = string.IsNullOrEmpty(okText) ? OkText : okText;
             var canceltext = string.IsNullOrEmpty(cancelText) ? CancelText : cancelText;
 
-            str.Append($", {{okText : '{oktext}', cancelText: '{canceltext}'}}");            
+            str.Append($", {{okText : '{oktext}', cancelText: '{canceltext}'}}");
 
             // Add Callbacks
             if (callbacks != null)
@@ -144,7 +157,8 @@ namespace MT.Notifications
             if (addOnDocumentReady)
                 str.Append("});");
 
-            str.Append("</script>");
+            if(addScript)
+                str.Append("</script>");
 
             return str.ToString();
         }
@@ -156,9 +170,9 @@ namespace MT.Notifications
         /// <param name="msg">message to show</param>
         /// <param name="type">Type of popup, message will not show any icon</param>
         /// <returns></returns>
-        public static string ShowPopup(string msg, MessageType type)
+        public static string ShowPopup(string msg, MessageType type, bool addScript = true)
         {
-            return ShowPopup(msg, type, string.Empty, string.Empty, string.Empty, string.Empty, null);
+            return ShowPopup(msg, type, string.Empty, string.Empty, string.Empty, string.Empty, null, addScript: addScript);
         }
 
         /// <summary>
@@ -169,9 +183,9 @@ namespace MT.Notifications
         /// <param name="msg">message to show</param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static string ShowPopup(string msg, MessageType type, string title)
+        public static string ShowPopup(string msg, MessageType type, string title, bool addScript = true)
         {
-            return ShowPopup(msg, type, title, string.Empty, string.Empty, string.Empty, null);
+            return ShowPopup(msg, type, title, string.Empty, string.Empty, string.Empty, null, addScript: addScript);
         }
 
         /// <summary>
@@ -183,9 +197,9 @@ namespace MT.Notifications
         /// <param name="okText">you can set it Globally via OkText Property of Notifications Class (default: OK)</param>
         /// <param name="cancelText">you can set it Globally via OkText Property of Notifications Class (default: Cancel)</param>
         /// <returns></returns>
-        public static string ShowPopup(string msg, MessageType type, string title, string okText, string cancelText)
+        public static string ShowPopup(string msg, MessageType type, string title, string okText, string cancelText, bool addScript = true)
         {
-            return ShowPopup(msg, type, title, okText, cancelText, string.Empty, null);
+            return ShowPopup(msg, type, title, okText, cancelText, string.Empty, null, addScript: addScript);
         }
 
         /// <summary>
@@ -202,11 +216,39 @@ namespace MT.Notifications
         /// <param name="addOnDocumentReady">optional,set true to add jquery Document ready to script</param>
         /// <returns>script string</returns>
         public static string ShowPopup(string msg, MessageType type, string title, string okText,
-            SweetCallBack callbacks, bool addOnDocumentReady = false)
+            SweetCallBack callbacks, bool addOnDocumentReady = false, bool addScript = true)
         {
-            
+            //Swal.fire({
+            //  title: 'Are you sure?',
+            //  text: "You won't be able to revert this!",
+            //  type: 'warning',
+            //  showCancelButton: true,
+            //  confirmButtonText: 'Yes, delete it!',
+            //  cancelButtonText: 'No, cancel!',
+            //  reverseButtons: true
+            //}).then((result) => {
+            //  if (result.value) {
+            //    Swal.fire(
+            //      'Deleted!',
+            //      'Your file has been deleted.',
+            //      'success'
+            //    )
+            //  } else if (
+            //    // Read more about handling dismissals
+            //    result.dismiss === Swal.DismissReason.cancel
+            //  ) {
+            //    Swal.fire(
+            //      'Cancelled',
+            //      'Your imaginary file is safe :)',
+            //      'error'
+            //    )
+            //  }
+            //})
 
-            var str = new StringBuilder("<script>");
+            var str = new StringBuilder();
+
+            if (addScript)
+                str.Append("<script>");
 
             if (addOnDocumentReady)
                 str.Append("$(function() {");
@@ -215,6 +257,8 @@ namespace MT.Notifications
             // add Type parameter
             if (type != MessageType.Message)
                 typeStr = type.GetDescription();
+            else
+                typeStr = "info";
 
             var buttonColor = "btn-success";
             if (type == MessageType.Error) { buttonColor = "btn-danger"; }
@@ -226,7 +270,7 @@ namespace MT.Notifications
             title = System.Net.WebUtility.HtmlEncode(title);
             msg = System.Net.WebUtility.HtmlEncode(msg);
 
-            str.Append(
+            var scriptStr =
 $@"Swal.fire({{
     title : '{title}',
     text : '{msg}',
@@ -236,21 +280,40 @@ $@"Swal.fire({{
     confirmButtonText : '{(string.IsNullOrEmpty(okText) ? OkText : okText)}',   
     allowEscapeKey : false,
     allowOutsideClick: false
-    }}
-    {(callbacks == null ? "" : $@", function() {{ {callbacks.Confirm} }}")}
-);");
+    }})";
+
+            if (callbacks != null)
+            {
+                scriptStr += $@".then((result) => {{ if (result.value) {{ {callbacks.Confirm} }} ";
+
+                if (callbacks.Cancel != null)
+                {
+                    scriptStr += $@"else if (
+                                    // Read more about handling dismissals
+                                    result.dismiss === Swal.DismissReason.cancel
+                                ) {{  {callbacks.Cancel} }}";
+                }
+
+                scriptStr += $"}} )";
+            }
+
+            scriptStr += ";";
+
+            str.Append(scriptStr);
 
             if (addOnDocumentReady)
                 str.Append("});");
 
-            str.Append("</script>");
+            if(addScript)
+                str.Append("</script>");
 
             return str.ToString();
+
         }
 
-        public static string ShowConfirm(string msg, SweetCallBack callbacks, string title = "", string okText = "", string cancelText = "", MessageType type = MessageType.Question, bool showLoaderOnConfirm = false)
+        public static string ShowConfirm(string msg, SweetCallBack callbacks, string title = "", string okText = "", string cancelText = "", MessageType type = MessageType.Question, bool showLoaderOnConfirm = false, bool addScript = true)
         {
-            return ShowPopup(msg, type, title, okText, cancelText, string.Empty, callbacks);
+            return ShowPopup(msg, type, title, okText, cancelText, string.Empty, callbacks, showLoaderOnConfirm, addScript: addScript);
         }
 
         /// <summary>
@@ -259,9 +322,9 @@ $@"Swal.fire({{
         /// <param name="title">title for Popup box</param>
         /// <param name="msg">message to show</param>
         /// <returns></returns>
-        public static string ShowErrorPopup(string title, string msg)
+        public static string ShowErrorPopup(string title, string msg, bool addScript = true)
         {
-            return ShowPopup(msg, MessageType.Error, title);
+            return ShowPopup(msg, MessageType.Error, title, addScript: addScript);
         }
 
         /// <summary>
@@ -269,9 +332,9 @@ $@"Swal.fire({{
         /// </summary>
         /// <param name="msg">message to show</param>
         /// <returns></returns>
-        public static string ShowErrorPopup(string msg)
+        public static string ShowErrorPopup(string msg, bool addScript = true)
         {
-            return ShowPopup(msg, MessageType.Error);
+            return ShowPopup(msg, MessageType.Error, addScript: addScript);
         }
         #endregion
 
@@ -284,23 +347,28 @@ $@"Swal.fire({{
         /// <param name="position">The position for Toastr</param>
         /// <param name="addOnDocumentReady">set true to add jquery Document ready to script</param>
         /// <returns>string contains script needed to show a message growl</returns>
-        public static string ShowToast(string title, string msg, MessageType type, ToastrPosition position = ToastrPosition.BottomRight, bool addOnDocumentReady = false)
+        public static string ShowToast(string title, string msg, MessageType type, ToastrPosition position = ToastrPosition.BottomRight, bool addOnDocumentReady = false, bool addScript = true)
         {
             // ShowToast(title, msg, position, type)
+            
+            var str = new StringBuilder();
 
-            var messageType = type.GetDescription();
-
-            var str = new StringBuilder("<script>");
+            if (addScript)
+                str.Append("<script>");
 
             if (addOnDocumentReady)
                 str.Append("$(function() {");
 
-            str.Append($"ShowToast('{title}', '{msg}', '{position.GetDescription()}', '{messageType}');");
+            if (type == MessageType.Message || type == MessageType.Question)
+                type = MessageType.Info;            
+
+            str.Append($"ShowToast('{title}', '{msg}', '{position.GetDescription()}', '{type.GetDescription()}');");
 
             if (addOnDocumentReady)
                 str.Append("});");
 
-            str.Append("</script>");
+            if(addScript)
+                str.Append("</script>");
 
             return str.ToString();
         }
@@ -311,9 +379,9 @@ $@"Swal.fire({{
         /// <param name="msg">Message of Toast</param>
         /// <param name="type">Type of Toast Message</param>
         /// <returns></returns>
-        public static string ShowToast(string msg, MessageType type)
+        public static string ShowToast(string msg, MessageType type, bool addScript = true)
         {
-            return ShowToast(string.Empty, msg, type);
+            return ShowToast(string.Empty, msg, type, addScript: addScript);
         }
 
         /// <summary>
@@ -322,16 +390,19 @@ $@"Swal.fire({{
         /// <param name="title"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public static string ShowErrorToast(string title, string msg)
+        public static string ShowErrorToast(string title, string msg, bool addScript = true)
         {
-            return ShowToast(title, msg, MessageType.Error);
+            return ShowToast(title, msg, MessageType.Error, addScript: addScript);
         }
 
-        public static string ShowGritter(string msg, string title = "", string imageUrl = "", GritterCallback callbacks = null, bool addOnDocumentReady = false)
+        public static string ShowGritter(string msg, string title = "", string imageUrl = "", GritterCallback callbacks = null, bool addOnDocumentReady = false, bool addScript = true)
         {
             // ShowGritter(title, msg, imageUrl, callbacks)
 
-            var str = new StringBuilder("<script>");
+            var str = new StringBuilder();
+
+            if (addScript)
+                str.Append("<script>");
 
             if (addOnDocumentReady)
                 str.Append("$(function() {");
@@ -361,7 +432,8 @@ $@"Swal.fire({{
             if (addOnDocumentReady)
                 str.Append("});");
 
-            str.Append("</script>");
+            if(addScript)                  
+                str.Append("</script>");
 
             return str.ToString();
         }
