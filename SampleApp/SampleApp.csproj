@@ -179,7 +179,7 @@
     <Content Include="Scripts\Notifications\Css\notifications.min.css">
       <DependentUpon>notifications.css</DependentUpon>
     </Content>
-    <Content Include="Scripts\Notifications\Css\sweetalert.css" />
+    <Content Include="Scripts\Notifications\Css\sweetalert2.min.css" />
     <Content Include="Scripts\Notifications\Css\toastr.css" />
     <Content Include="Scripts\Notifications\Css\toastr.min.css" />
     <Content Include="Scripts\Notifications\jquery.gritter.js" />
@@ -189,7 +189,7 @@
       <DependentUpon>notifications.all.js</DependentUpon>
     </Content>
     <Content Include="Scripts\Notifications\notifications.js" />
-    <Content Include="Scripts\Notifications\sweetalert.min.js" />
+    <Content Include="Scripts\Notifications\sweetalert2.min.js" />
     <Content Include="Scripts\Notifications\toastr.js" />
     <Content Include="Scripts\Notifications\toastr.min.js" />
     <Content Include="Scripts\respond.js" />

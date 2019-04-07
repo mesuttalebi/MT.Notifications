@@ -16,7 +16,9 @@ namespace MT.Notifications
         [Description("success")]
         Success,
         [Description("message")]
-        Message
+        Message,
+        [Description("question")]
+        Question
     }    
 
     public enum ToastrPosition
@@ -197,20 +199,9 @@ namespace MT.Notifications
         /// <param name="addOnDocumentReady">optional,set true to add jquery Document ready to script</param>
         /// <returns>script string</returns>
         public static string ShowPopup(string msg, MessageType type, string title, string okText,
-            SweetCallBack callbacks,bool closeOnConfirm = true, bool addOnDocumentReady = false)
+            SweetCallBack callbacks, bool addOnDocumentReady = false)
         {
-            //swal({
-            //     title: "Red!",
-            //     text: "İstek Başarıyla Rededildi!",
-            //     type: "success",
-            //     showCancelButton: false,
-            //     confirmButtonClass: "btn-info",
-            //     confirmButtonText: "TAMAM",
-            //     closeOnConfirm: false,
-            //     allowEscapeKey: false,
-            //    }, function() {               
-            //          callback();
-            //    });"
+            
 
             var str = new StringBuilder("<script>");
 
@@ -232,15 +223,16 @@ namespace MT.Notifications
 
 
             str.Append(
-$@"swal({{
+$@"Swal.fire({{
     title : '{title}',
     text : '{msg}',
     type : '{typeStr}',
     showCancelButton : false,
     confirmButtonClass : '{buttonColor}',
-    confirmButtonText : '{(string.IsNullOrEmpty(okText) ? OkText : okText)}',
-    closeOnConfirm : {(closeOnConfirm ? "true" : "false")},
-    allowEscapeKey : false}}
+    confirmButtonText : '{(string.IsNullOrEmpty(okText) ? OkText : okText)}',   
+    allowEscapeKey : false,
+    allowOutsideClick: false
+    }}
     {(callbacks == null ? "" : $@", function() {{ {callbacks.Confirm} }}")}
 );");
 
@@ -252,7 +244,7 @@ $@"swal({{
             return str.ToString();
         }
 
-        public static string ShowConfirm(string msg, SweetCallBack callbacks, string title = "", string okText = "", string cancelText = "", MessageType type = MessageType.Warning, bool showLoaderOnConfirm = false)
+        public static string ShowConfirm(string msg, SweetCallBack callbacks, string title = "", string okText = "", string cancelText = "", MessageType type = MessageType.Question, bool showLoaderOnConfirm = false)
         {
             return ShowPopup(msg, type, title, okText, cancelText, string.Empty, callbacks);
         }

@@ -12,7 +12,7 @@
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
+    };
 
     return options;
 }
@@ -80,41 +80,46 @@ function ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl, showLoad
     else if (type === "warning") {okButtonColor = "btn-warning";}
     else if (type === "info") { okButtonColor = "btn-info"; }
     else if (type === "success") { okButtonColor = "btn-success"; }
-    else {okButtonColor = "btn-primary"}
+    else { okButtonColor = "btn-primary";}
 
     if (buttons === undefined)
         buttons = {};
 
     if (callbacks === undefined) {
-        swal({
+        Swal.fire({            
             title: title,
             text: msg,
             type: type,
             confirmButtonText: buttons.okText !== undefined ? buttons.okText : "OK",
             confirmButtonClass: okButtonColor,
             imageUrl: imageUrl,
-            allowOutsideClick : true
+            allowOutsideClick: true,
+            allowEscapeKey: true            
         });
     }
     else {
-        swal({
+        Swal.fire({
             title: title,
             text: msg,
             type: type,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
             showCancelButton: buttons.cancelText !== undefined,
+            showCloseButton : buttons.cancelText === undefined,
             confirmButtonClass: okButtonColor,
             confirmButtonText: buttons.okText !== undefined ? buttons.okText : "Yes",
             cancelButtonText: buttons.cancelText !== undefined ? buttons.cancelText : "No",
-            closeOnConfirm: !showLoaderOnConfirm,
             showLoaderOnConfirm: showLoaderOnConfirm
-        },
-            function (isConfirm) {
-                if (isConfirm) {
-                    callbacks.confirm();
-                } else {
-                    if(callbacks.cancel !== undefined)
+        }).then((result) => {
+            if (result.value) {
+                callbacks.confirm();
+            } else if (
+                // Read more about handling dismissals
+                result.dismiss === Swal.DismissReason.cancel) {
+
+                if (callbacks.cancel !== undefined)
                         callbacks.cancel();
-                }
-            });
+            }
+        });       
     }
-}
+}               
