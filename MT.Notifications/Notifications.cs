@@ -120,7 +120,7 @@ namespace MT.Notifications
             title = System.Net.WebUtility.HtmlEncode(title);
             msg = System.Net.WebUtility.HtmlEncode(msg);
 
-            str.Append($"ShowSweetPopup('{title}','{msg}'");
+            str.Append($"ShowSweetPopup('{title}',`{msg}`");
 
             // add Type parameter
             if (type != MessageType.Message)
@@ -273,7 +273,7 @@ namespace MT.Notifications
             var scriptStr =
 $@"Swal.fire({{
     title : '{title}',
-    text : '{msg}',
+    text : `{msg}`,
     type : '{typeStr}',
     showCancelButton : false,
     confirmButtonClass : '{buttonColor}',
@@ -362,7 +362,7 @@ $@"Swal.fire({{
             if (type == MessageType.Message || type == MessageType.Question)
                 type = MessageType.Info;            
 
-            str.Append($"ShowToast('{title}', '{msg}', '{position.GetDescription()}', '{type.GetDescription()}');");
+            str.Append($"ShowToast('{title}', `{msg}`, '{position.GetDescription()}', '{type.GetDescription()}');");
 
             if (addOnDocumentReady)
                 str.Append("});");
@@ -407,7 +407,7 @@ $@"Swal.fire({{
             if (addOnDocumentReady)
                 str.Append("$(function() {");
 
-            str.Append($"ShowGritter('{title}', '{msg}', '{imageUrl}'");
+            str.Append($"ShowGritter('{title}', `{msg}`, '{imageUrl}'");
 
             if (callbacks != null)
             {
