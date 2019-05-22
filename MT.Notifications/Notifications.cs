@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
 
 namespace MT.Notifications
@@ -97,16 +98,19 @@ namespace MT.Notifications
         {
             //ShowSweetPopup(title, msg, type, buttons, callbacks, imageUrl, showLoaderOnConfirm)           
 
+            msg = WebUtility.HtmlEncode(msg);
+            title = WebUtility.HtmlEncode(title);
+
             var str = new StringBuilder("<script>");
 
             if (addOnDocumentReady)
-                str.Append("$(function() {");
+                str.Append("$(function() {");            
 
-            str.Append($"ShowSweetPopup('{title}','{msg}'");
+            str.Append($"ShowSweetPopup(\"{title}\",\"{msg}\"");
 
             // add Type parameter
             if (type != MessageType.Message)
-                str.Append($",'{type.GetDescription()}'");
+                str.Append($",\"{type.GetDescription()}\"");
             else
                 str.Append($", null");
 
@@ -114,7 +118,7 @@ namespace MT.Notifications
             var oktext = string.IsNullOrEmpty(okText) ? OkText : okText;
             var canceltext = string.IsNullOrEmpty(cancelText) ? CancelText : cancelText;
 
-            str.Append($", {{okText : '{oktext}', cancelText: '{canceltext}'}}");
+            str.Append($", {{okText : \"{oktext}\", cancelText: \"{canceltext}\"}}");
 
             // Add Callbacks
             if (callbacks != null)
@@ -130,7 +134,7 @@ namespace MT.Notifications
                 str.Append($", undefined");
 
             // Add ImageUrl
-            str.Append($", '{imageUrl}'");
+            str.Append($", \"{imageUrl}\"");
 
             // Add showLoaderOnConfirm
             str.Append($", {showLoaderOnConfirm.ToString().ToLower()}");
@@ -212,6 +216,9 @@ namespace MT.Notifications
             //          callback();
             //    });"
 
+            msg = WebUtility.HtmlEncode(msg);
+            title = WebUtility.HtmlEncode(title);
+
             var str = new StringBuilder("<script>");
 
             if (addOnDocumentReady)
@@ -233,12 +240,12 @@ namespace MT.Notifications
 
             str.Append(
 $@"swal({{
-    title : '{title}',
-    text : '{msg}',
-    type : '{typeStr}',
+    title : ""{title}"",
+    text : ""{msg}"",
+    type : ""{typeStr}"",
     showCancelButton : false,
-    confirmButtonClass : '{buttonColor}',
-    confirmButtonText : '{(string.IsNullOrEmpty(okText) ? OkText : okText)}',
+    confirmButtonClass : ""{buttonColor}"",
+    confirmButtonText : ""{(string.IsNullOrEmpty(okText) ? OkText : okText)}"",
     closeOnConfirm : {(closeOnConfirm ? "true" : "false")},
     allowEscapeKey : false}}
     {(callbacks == null ? "" : $@", function() {{ {callbacks.Confirm} }}")}
@@ -293,13 +300,16 @@ $@"swal({{
             // ShowToast(title, msg, position, type)
 
             var messageType = type.GetDescription();
-           
+
+            msg = WebUtility.HtmlEncode(msg);
+            title = WebUtility.HtmlEncode(title);
+
             var str = new StringBuilder("<script>");
             
             if (addOnDocumentReady)
                 str.Append("$(function() {");
 
-            str.Append($"ShowToast('{title}', '{msg}', '{position.GetDescription()}', '{messageType}');");
+            str.Append($"ShowToast(\"{title}\", \"{msg}\", \"{position.GetDescription()}\", \"{messageType}\");");
 
             if (addOnDocumentReady)
                 str.Append("});");
@@ -337,10 +347,13 @@ $@"swal({{
             
             var str = new StringBuilder("<script>");
 
+            msg = WebUtility.HtmlEncode(msg);
+            title = WebUtility.HtmlEncode(title);
+
             if (addOnDocumentReady)
                 str.Append("$(function() {");
 
-            str.Append($"ShowGritter('{title}', '{msg}', '{imageUrl}'");
+            str.Append($"ShowGritter(\"{title}\", \"{msg}\", \"{imageUrl}\"");
 
             if(callbacks != null)
             {
